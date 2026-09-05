@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VNR Infra Developers — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study: a complete marketing website and lead-capture system for VNR Infra Developers, a Hyderabad-based real-estate company — built with vanilla JS ES modules, a data-driven project system, Web3Forms lead capture, and custom-domain deployment." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Live · Client project</span>
+    <h1>VNR Infra Developers</h1>
+    <p class="lede">A complete marketing website and lead-capture system for a Hyderabad real-estate company — designed, built, and maintained for a client. Developed by Narendra; not affiliated with VNR Infra Developers as a business.</p>
+    <div class="tag-list">
+      <span class="tag">Vanilla JS</span><span class="tag">ES Modules</span><span class="tag">Web3Forms</span><span class="tag">GitHub Pages</span><span class="tag">SEO</span><span class="tag">Lead Capture</span><span class="tag">Responsive</span>
+    </div>
+    <div class="project-links">
+      <a href="https://vnrinfradevelopers.com/" target="_blank" rel="noopener">Visit live website <span class="arrow-expand">→</span></a>
+    </div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#client">Client context</a>
+        <a href="#brief">The brief</a>
+        <a href="#design">Design &amp; content</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#leads">Lead generation</a>
+        <a href="#seo">SEO &amp; deployment</a>
+        <a href="#outcome">Outcome</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p>VNR Infra Developers Pvt. Ltd. is a real-estate and infrastructure company in Hyderabad specialising in HMDA and DTCP-approved open plots, farm plots, landlord-share flats, and property advisory. I designed, developed, and now maintain their public marketing website — a data-driven single-page build with a full lead-capture pipeline, deployed to the client's own domain.</p>
+          <p>The site presents two active projects — <strong>Nidhi Avenue</strong> (a DTCP-approved, TS RERA-registered gated layout on the Warangal Highway) and <strong>Anvita High 9</strong> (a luxury 15-acre, 9-tower community marketed by VNR in Kollur) — alongside the company's services, delivery history, and office details.</p>
+        </section>
+
+        <section class="detail-section" id="client">
+          <h2>Client context</h2>
+          <p>The company is led by a managing director with an MBA in finance and 25+ years in Hyderabad — over a decade in MNC accounts and corporate operations, then 15+ years in real estate. That finance-first discipline shaped the site's content: it leads with approvals, clear titles, and verified infrastructure rather than marketing gloss.</p>
+          <ul>
+            <li>Focus markets: Yadadri Bhuvanagiri, Kollur–Nandigama–Shankarpally, Kothur–Shadnagar, Sangareddy–Sadashivpet, Zaheerabad.</li>
+            <li>Core promise: HMDA/DTCP-approved layouts, clear-title chains, spot registration, no surprises at handover.</li>
+            <li>Track record the site surfaces: 860+ families settled, direct delivery of documents and layout maps on visit.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="brief">
+          <h2>The brief</h2>
+          <p>The client needed a professional presence that did three things: present property listings credibly, capture leads from prospective buyers, and work reliably on every device. Because the business depends on phone calls and WhatsApp enquiries, the site also had to make contact frictionless from any point on the page.</p>
+        </section>
+
+        <section class="detail-section" id="design">
+          <h2>Design &amp; content</h2>
+          <p>A single scrolling page organised as a persuasion funnel: hero with proof stats and an auto-advancing image carousel, a scrolling approvals marquee (HMDA approved · TS RERA registered · bank loan eligible), the current projects, past delivered projects, six services, a "why us" section, a four-step visit-to-registration process, company about/MD profile, vision-mission-values, and a contact section with an embedded office map.</p>
+          <ul>
+            <li>Project cards are not hardcoded — each is rendered from a JSON record (name, location, approvals, features, price, location highlights, map embed, gallery) and carries its own image carousel.</li>
+            <li>Clicking a card opens a rich detail modal: approvals, feature grid, price list, location points, gallery with a keyboard-navigable lightbox, and an embedded map.</li>
+            <li>Offer badges (e.g. a "10% OFF · ₹9,999" launch circle on Nidhi Avenue) are data-driven per project, so promotions update without touching page markup.</li>
+            <li>Every image is served through a jsDelivr CDN in front of the repo's assets branch — long-cache headers and compression, with branded placeholders that show until real imagery lands.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="architecture">
+          <h2>Architecture</h2>
+          <p>No framework — a vanilla JavaScript ES-module system with a deliberate emphasis on maintainability for a solo client build that will evolve.</p>
+          <ul>
+            <li>Thirteen focused modules orchestrated from a single entry point: projects, project-detail modal, lead form, section pager, hero/about carousels, marquee, enquiry modal, welcome toast, nav, and a shared carousel factory.</li>
+            <li>One <code style="font-family:var(--mono);color:var(--accent);">config.js</code> holds every site-wide constant — phone, WhatsApp, email, CDN base URL, Web3Forms endpoint and access key, partial URLs. Change one file, the whole site follows.</li>
+            <li>Header and footer are fetched partials with <code style="font-family:var(--mono);color:var(--accent);">{{TOKEN}}</code> substitution, so contact details are injected from config rather than duplicated across markup.</li>
+            <li>Event delegation throughout — usable even though components mount asynchronously after the header, footer, and project data load.</li>
+            <li>Accessibility-minded details: modals trap and restore focus, Escape and arrow keys work, aria roles/labels are set, and reveal animations respect reduced-motion.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="leads">
+          <h2>Lead generation</h2>
+          <p>The site's real job is qualified leads, and every call-to-action routes into one pipeline.</p>
+          <ul>
+            <li><strong>Serverless form backend:</strong> submissions POST to Web3Forms — no server to run or maintain, with the recipient set in one config value.</li>
+            <li><strong>Uniform lead routing:</strong> every button — hero CTAs, project-card chip buttons, buttons inside the detail modal, and the mobile sticky bar — carries action/project context and pre-fills the enquiry form, auto-guessing the matching "interested in" option.</li>
+            <li><strong>Validated input:</strong> name + 10-digit phone checks with inline error states and a digit-only phone mask.</li>
+            <li><strong>Conversion touches:</strong> a welcome enquiry modal (shown once per session), a bottom-right welcome toast, a floating WhatsApp button, and a persistent mobile Call / WhatsApp / Site Visit bar.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="seo">
+          <h2>SEO &amp; deployment</h2>
+          <ul>
+            <li>Open Graph and Twitter card meta, JSON-LD Organization schema with contactPoint, and a descriptive title/meta description.</li>
+            <li>sitemap.xml, a custom 404 page, favicon/apple-touch icons, and a Google site-verification file for Search Console.</li>
+            <li>Deployed on GitHub Pages to the client's own domain — <strong>vnrinfradevelopers.com</strong> — via a CNAME record; the git history shows a real iterative maintenance cycle (brand refresh, project additions, offer updates, CDN switch, SEO pass).</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="outcome">
+          <h2>Outcome</h2>
+          <p>The site took the company from no web presence to a live, data-driven product hosted on its own domain — presenting two revenue-bearing projects with verified approvals, and funnelling every enquiry into the client's inbox and phone. This is an ongoing engagement: as the client adds projects, changes offers, or refreshes imagery, the single config-and-data architecture makes each update a small, safe change.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

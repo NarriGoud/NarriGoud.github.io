@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conversation Analyzer — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study: the official site and documentation system for AI Conversation Analyzer — an open-source, offline-first dashboard that turns raw AI agent sessions into inspectable visualizations of tokens, reasoning, tool calls, latency, and costs." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Open source · In development</span>
+    <h1>Conversation Analyzer</h1>
+    <p class="lede">The official website and documentation system for <strong>AI Conversation Analyzer</strong> — an open-source, offline-first dashboard that turns raw AI agent sessions into something inspectable: tokens, reasoning, tool calls, latency, and cost, visualized in the browser. Zero build step, Markdown-driven docs, deployed on GitHub Pages.</p>
+    <div class="tag-list">
+      <span class="tag">Vanilla JS</span><span class="tag">Markdown Docs</span><span class="tag">marked.js</span><span class="tag">GitHub Pages</span><span class="tag">npm CLI</span><span class="tag">Offline-first</span><span class="tag">Open source</span>
+    </div>
+    <div class="project-links">
+      <a href="https://conversation-analyzer.github.io/" target="_blank" rel="noopener">Visit live site <span class="arrow-expand">→</span></a>
+      <a href="https://github.com/Conversation-analyzer/ai_conversation_analyzer" target="_blank" rel="noopener">Source on GitHub <span class="arrow-expand">→</span></a>
+    </div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#product">The product</a>
+        <a href="#site">Site structure &amp; design</a>
+        <a href="#features">Dashboard features</a>
+        <a href="#docs">The docs system</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#deployment">Deployment &amp; SEO</a>
+        <a href="#status">Status &amp; roadmap</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p>AI Conversation Analyzer is an npm-distributed tool for debugging and understanding AI agent conversations — OpenCode and (by design) any future platform. The project is two halves maintained together: a local dashboard server that consumes agent data, and this website, which has to market the tool, explain it, and document it deeply. This case study is about that second half.</p>
+          <p>The site is deliberately boring about infrastructure and opinionated about craft: pure HTML/CSS/JS with no build step, an 11-file design-token CSS system, a docs engine that renders ~30 Markdown pages with search and addresses for each one, and a dark developer aesthetic that sells the product's own dashboard before a single screenshot loads.</p>
+        </section>
+
+        <section class="detail-section" id="product">
+          <h2>The product</h2>
+          <p>The product defines what the site has to communicate, so it's worth getting precise about it:</p>
+          <ul>
+            <li><strong>CLI + dashboard:</strong> <code style="font-family:var(--mono);color:var(--accent);">npm install -g ai-conversation-analyzer</code> gives you the <code style="font-family:var(--mono);color:var(--accent);">conversation-analyzer</code> command, which serves a local dashboard at <code style="font-family:var(--mono);color:var(--accent);">http://127.0.0.1:4474</code>.</li>
+            <li><strong>OpenCode plugin:</strong> <code style="font-family:var(--mono);color:var(--accent);">conversation-analyzer init</code> interactively registers it as an OpenCode plugin — writing <code style="font-family:var(--mono);color:var(--accent);">"plugin": ["ai-conversation-analyzer"]</code> into <code style="font-family:var(--mono);color:var(--accent);">~/.config/opencode/opencode.jsonc</code> — so the dashboard auto-starts whenever OpenCode loads it.</li>
+            <li><strong>Normalized data model:</strong> every backend connector produces the same <strong>ConversationSpec</strong> shape (versioned, with session, assistant, metrics, messages, timeline, tools, and background calls kept separate). A parser registry maps source names — <code style="font-family:var(--mono);color:var(--accent);">opencode</code>, <code style="font-family:var(--mono);color:var(--accent);">cursor</code>, <code style="font-family:var(--mono);color:var(--accent);">claude</code> — to parser functions, so adding a platform is "connector + datasource + parser", nothing else.</li>
+            <li><strong>Three ways in:</strong> upload a JSON export, load a bundled ~1 MB demo session, or connect to a live backend and enable Live polling (4-second auto-refresh with in-place updates on the Messages, Tools, and Timeline tabs).</li>
+            <li><strong>Privacy by architecture:</strong> everything runs in the browser. Offline-first, no data ever leaves the machine — the site's leading promise and the easiest way to capture trust for a debugging tool.</li>
+            <li><strong>Release history:</strong> shipped to npm through v1.2.x — quiet-logs and a clean-uninstall path were the headline features after v1.1.0, and each release is reconciled with the site's changelog.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="site">
+          <h2>Site structure &amp; design</h2>
+          <p>A multi-page site rather than a single scroller, because a developer tool needs dedicated spaces for features, docs, community, contribution, changelog, and roadmap — each with its own URL.</p>
+          <ul>
+            <li><strong>Pages:</strong> landing (<code style="font-family:var(--mono);color:var(--accent);">index</code>), <code style="font-family:var(--mono);color:var(--accent);">features</code>, <code style="font-family:var(--mono);color:var(--accent);">docs</code>, <code style="font-family:var(--mono);color:var(--accent);">community</code>, <code style="font-family:var(--mono);color:var(--accent);">contribution</code>, <code style="font-family:var(--mono);color:var(--accent);">changelog</code>, <code style="font-family:var(--mono);color:var(--accent);">roadmap</code>, <code style="font-family:var(--mono);color:var(--accent);">about</code>, plus a custom 404 — all sharing the same header/footer partials and design system.</li>
+            <li><strong>Typography &amp; icons:</strong> Inter + JetBrains Mono (the classic "engineer's editorial" pairing), and Font Awesome 6.7.2 for iconography — no icon imagery to maintain.</li>
+            <li><strong>Hero as a product demo:</strong> instead of a stock image, the landing hero is a hand-built mock dashboard — an animated title-bar, stat counters (tokens / tool calls / reasoning) that count up on load, and data-width bars for input/output/reasoning/cache. The product story is told before any screenshot appears.</li>
+            <li><strong>Persuasion sections:</strong> nine feature cards, a four-step "Export → Load → Parse → Explore" how-it-works strip, a "why it exists" comparison band, a stats band, a community grid, and a CTA — all static HTML/CSS animated by a tiny reveal-on-scroll script with reduced-motion support.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="features">
+          <h2>Dashboard features</h2>
+          <p>The dashboard itself is the site's best sales material, so the features page pairs eight real product screenshots with what each view is for:</p>
+          <ul>
+            <li><strong>Overview:</strong> session info, summary stats, token metrics, and a computed health score.</li>
+            <li><strong>Timeline:</strong> a chronological event stream — message, reasoning, tool start/end events — with filter chips.</li>
+            <li><strong>Messages &amp; Tools:</strong> sortable AG Grid tables; clicking a row opens a detail panel with full expandable content (payloads, duration, status).</li>
+            <li><strong>Insights:</strong> seven interactive Plotly charts — token distribution, latency breakdown, Gantt-style views — plus p50/p95 latency percentiles and context-accumulation curves that reveal when a session is degrading.</li>
+            <li><strong>Cost analysis:</strong> spend tracked per session, per turn, and per tool call, including hidden background calls (title-generation, compaction) kept separate from visible conversation tokens.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="docs">
+          <h2>The docs system</h2>
+          <p>The docs are content-driven rather than hand-authored pages — a small Markdown engine instead of a dozen hardcoded HTML files:</p>
+          <ul>
+            <li><strong>One source of truth:</strong> <code style="font-family:var(--mono);color:var(--accent);">docs/sidebar.json</code> defines the tree — Getting Started, Importing Data, Configuration, Understanding Reports (eight pages), Providers, Architecture, API Reference, and FAQ — and writing a doc is just adding a Markdown file plus a sidebar entry.</li>
+            <li><strong>Markdown on render:</strong> the docs page pulls Markdown, renders it with marked.js, and uses custom renderers to add things Markdown can't: tabbed install blocks (global / npx / from source), code blocks with copy buttons and language headers, and styled callout notes.</li>
+            <li><strong>Keyboard-first navigation:</strong> <code style="font-family:var(--mono);color:var(--accent);">Ctrl+K</code> opens site-wide search over the sidebar, and every page gets prev/next paging plus its own addressable path via URL state — so documentation feels like real documentation, not a README in a browser.</li>
+            <li><strong>Release-linked:</strong> the changelog page is reconciled with actual npm/GitHub releases (v1.1.0 → v1.2.0/v1.2.1), and the roadmap page is the promised future, not vague marketing.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="architecture">
+          <h2>Architecture</h2>
+          <p>Zero build step, zero dependencies at runtime. The site is static pages plus a few small scripts, and its discipline is configuration over repetition.</p>
+          <ul>
+            <li><strong>Shared partials:</strong> header and footer are injected everywhere by <code style="font-family:var(--mono);color:var(--accent);">include.js</code>, so nav, mobile menu, download buttons, and footer never drift between pages.</li>
+            <li><strong>One config, everywhere:</strong> <code style="font-family:var(--mono);color:var(--accent);">config.js</code> holds a single <code style="font-family:var(--mono);color:var(--accent);">APP_CONFIG</code> (repo owner/name, releases URL, contact email), and links are written as <code style="font-family:var(--mono);color:var(--accent);">data-github</code>/<code style="font-family:var(--mono);color:var(--accent);">data-email</code> attributes that include.js resolves at load — every GitHub link on the site is valid by construction.</li>
+            <li><strong>Split CSS:</strong> 11 focused files — tokens, base, background, navigation, components, layout, footer, home, pages, animations, responsive — following a token → base → layout → component cascade, so themes and layout changes stay local.</li>
+            <li><strong>Small JS surface:</strong> four modules — <code style="font-family:var(--mono);color:var(--accent);">config.js</code>, <code style="font-family:var(--mono);color:var(--accent);">include.js</code>, <code style="font-family:var(--mono);color:var(--accent);">main.js</code>, <code style="font-family:var(--mono);color:var(--accent);">markdown.js</code>/<code style="font-family:var(--mono);color:var(--accent);">docs.js</code> — each with one job.</li>
+            <li><strong>Real iteration in git:</strong> the history shows the site evolving with the product — a custom Markdown parser replaced by marked.js CDN for reliability, Ctrl+K search and prev/next nav added, real screenshots swapped in, download buttons pushed into the mobile menu, and responsive fixes for the hero install block.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="deployment">
+          <h2>Deployment &amp; SEO</h2>
+          <ul>
+            <li>Hosted on GitHub Pages (<code style="font-family:var(--mono);color:var(--accent);">conversation-analyzer.github.io</code>) with a <code style="font-family:var(--mono);color:var(--accent);">.nojekyll</code> file and a custom 404 that matches the site's design.</li>
+            <li>Open Graph and Twitter card meta, keyword meta, and descriptive titles on every page; <code style="font-family:var(--mono);color:var(--accent);">preconnect</code> hints for the font CDNs to keep first paint quick.</li>
+            <li>Cross-linked with the npm ecosystem: the download button targets the latest GitHub release asset, and community links resolve to the repo's issues, pulls, discussions, and releases from a single config value.</li>
+            <li>Documentation and product pages agree with the package README, so "Install" works verbatim wherever a prospective user lands.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="status">
+          <h2>Status &amp; roadmap</h2>
+          <p>The current build advertises <strong>Download v1.2.0</strong> (with the v1.2.1 changelog documented), and the site carries a roadmap as a real page with committed directions: more platform connectors (the architecture's parser-registry design makes this cheap), deeper analytics — the product claims 8+ charts and 100% browser-based operation today. Positioned in the project list as <em>in development</em>, it's the most product-like build in the portfolio: a tool, its documentation, and its marketing site that have to move together without a build system forcing consistency.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

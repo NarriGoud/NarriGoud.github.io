@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MarketMind — MCP Site — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study: the MarketMind MCP site at mcp.marketmind-hub.in — a Cloudflare Worker co-hosting an authless Model Context Protocol server and the static onboarding site for its 12 market tools." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Live · In development</span>
+    <h1>MarketMind — MCP Site</h1>
+    <p class="lede">A single Cloudflare Worker playing two roles: an authless Model Context Protocol server your AI agent can connect to, and the static site that teaches you how. Twelve market tools, one-line configs for Claude, ChatGPT, Cursor, and mcp-remote — with a docs page carrying the real quota numbers.</p>
+    <div class="tag-list">
+      <span class="tag">Cloudflare Workers</span><span class="tag">MCP</span><span class="tag">TypeScript</span><span class="tag">Durable Objects</span><span class="tag">KV</span><span class="tag">R2</span><span class="tag">zod</span>
+    </div>
+    <div class="project-links">
+      <a href="https://mcp.marketmind-hub.in/" target="_blank" rel="noopener">Visit live site <span class="arrow-expand">→</span></a>
+      <a href="index.html">← Hub overview</a>
+    </div>
+    <div class="project-media"><img src="../../assets/marketmind_mcp_website.png" alt="MarketMind MCP website screenshot" loading="lazy" width="800" height="500" /></div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#worker">One worker, two jobs</a>
+        <a href="#protocol">The MCP server</a>
+        <a href="#tools">The 12 tools</a>
+        <a href="#site">The static site</a>
+        <a href="#funnel">Quick-start funnel</a>
+        <a href="#deployment">Deployment &amp; reliability</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p><code style="font-family:var(--mono);color:var(--accent);">mcp.marketmind-hub.in</code> isn't a typical marketing page. It's the public face of a server: a Cloudflare Worker that exposes MarketMind's market intelligence over the Model Context Protocol <strong>for free, with no API key required</strong>, and co-serves an onboarding site that explains what MCP is, catalogs the 12 tools, and drops a copy-paste config into your client in about 30 seconds.</p>
+          <p>It's the bridge between the marketing site ("there's an MCP") and the developer portal ("here's where you pay for capacity") — the part of the funnel that has to make a skeptic actually connect a tool.</p>
+        </section>
+
+        <section class="detail-section" id="worker">
+          <h2>One worker, two jobs</h2>
+          <ul>
+            <li><code style="font-family:var(--mono);color:var(--accent);">wrangler.jsonc</code> declares a Worker named <code style="font-family:var(--mono);color:var(--accent);">mcp</code>, routed to the custom domain <code style="font-family:var(--mono);color:var(--accent);">mcp.marketmind-hub.in</code>, with its entry point at <code style="font-family:var(--mono);color:var(--accent);">src/index.ts</code>.</li>
+            <li><strong>Dispatch order in the Worker's fetch handler:</strong> the <code style="font-family:var(--mono);color:var(--accent);">/mcp</code> path goes to the MCP server (<code style="font-family:var(--mono);color:var(--accent);">McpAgent.serve("/mcp")</code>); everything else falls through to <code style="font-family:var(--mono);color:var(--accent);">env.ASSETS.fetch()</code>, which serves the static <code style="font-family:var(--mono);color:var(--accent);">public/</code> site with auto-trailing-slash and 404-page handling.</li>
+            <li>Debate-ready tools and onboarding copy deploy under one domain with one <code style="font-family:var(--mono);color:var(--accent);">wrangler deploy</code> — protocol and product can't drift apart.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="protocol">
+          <h2>The MCP server</h2>
+          <ul>
+            <li>Built on Cloudflare's <code style="font-family:var(--mono);color:var(--accent);">agents</code> framework — an <code style="font-family:var(--mono);color:var(--accent);">McpAgent</code> named <strong>MarketMind MCP v0.2.0</strong> served over <strong>streamable-http</strong>, with zod validating every tool call.</li>
+            <li><strong>Authless by design:</strong> no auth middleware anywhere on the <code style="font-family:var(--mono);color:var(--accent);">/mcp</code> path. Generous free tool access is the growth hook; the paid quota story lives on the developer portal where capacity actually gets metered and billed.</li>
+            <li><strong>Stateful sessions:</strong> each connection maps to a Durable Object (SQLite-backed) holding the <code style="font-family:var(--mono);color:var(--accent);">McpAgent</code> instance, so multi-turn conversations keep their tool-call state across requests.</li>
+            <li><strong>Edge data:</strong> a KV namespace caches derived datasets (e.g. the ticker dataset with a 6-hour TTL), an R2 bucket (<code style="font-family:var(--mono);color:var(--accent);">marketmind-data</code>) is the durable source of truth, and two env vars point at the internal ticker-extractor gateway and the RAG service — with a single secret authorizing those internal proxy calls.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="tools">
+          <h2>The 12 tools</h2>
+          <p>The catalog is split into three families — exactly the mental model the site's filter tabs invite you to use:</p>
+          <ul>
+            <li><strong>Computation (8):</strong> <code style="font-family:var(--mono);color:var(--accent);">market_time</code>, <code style="font-family:var(--mono);color:var(--accent);">market_status</code>, <code style="font-family:var(--mono);color:var(--accent);">market_next_session</code>, <code style="font-family:var(--mono);color:var(--accent);">market_is_holiday</code>, <code style="font-family:var(--mono);color:var(--accent);">market_upcoming_holidays</code>, <code style="font-family:var(--mono);color:var(--accent);">market_settlement_date</code>, <code style="font-family:var(--mono);color:var(--accent);">market_expiry</code>, <code style="font-family:var(--mono);color:var(--accent);">market_lot_size</code> — deterministic IST-calendar logic built directly into the worker (weekend check, holiday arrays, T+1 skipping, weekly/monthly expiry math).</li>
+            <li><strong>Data (2):</strong> <code style="font-family:var(--mono);color:var(--accent);">market_ticker_meta</code> and <code style="font-family:var(--mono);color:var(--accent);">market_sector_tickers</code> — read the NSE/BSE dataset from R2 through KV via cache-aside helpers, with case-insensitive sector matching.</li>
+            <li><strong>Intelligence (2):</strong> <code style="font-family:var(--mono);color:var(--accent);">market_ticker_extract</code> proxies to the fine-tuned Mistral-7B gateway using the internal token, and <code style="font-family:var(--mono);color:var(--accent);">market_rag_query</code> proxies to the RAG service for token-budgeted, source-annotated financial context.</li>
+            <li><strong>One contract:</strong> every tool answers with a <code style="font-family:var(--mono);color:var(--accent);">{type:"text", text: JSON.stringify(obj, null, 2)}</code> payload — structured data for agents, not prose.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="site">
+          <h2>The static site</h2>
+          <ul>
+            <li><strong>Multi-page, not a SPA:</strong> <code style="font-family:var(--mono);color:var(--accent);">index</code>, <code style="font-family:var(--mono);color:var(--accent);">docs</code>, <code style="font-family:var(--mono);color:var(--accent);">pricing</code>, <code style="font-family:var(--mono);color:var(--accent);">contact</code>, <code style="font-family:var(--mono);color:var(--accent);">legal</code>, <code style="font-family:var(--mono);color:var(--accent);">404</code>, an OAuth callback page, and a <code style="font-family:var(--mono);color:var(--accent);">dashboard</code>.</li>
+            <li><strong>Landing:</strong> hero stats (12 tools · free · no auth · &lt;100ms), a "what is MCP" primer, a 12-tool catalog with working category filter tabs (All / Computation / Data / Intelligence), quick-start cards, a try-it section that maps natural-language questions to the answering tool, and a contact CTA.</li>
+            <li><strong>Docs:</strong> the full MCP reference with a desktop sidebar scroll-spy and a mobile search/jump dropdown; the plan credit limits on it are real plan data (Sandbox 100/day, Starter 500/day, …).</li>
+            <li><strong>Shared chrome:</strong> header, footer, and the login/signup/checkout/enterprise modals are partials injected via fetch — and they're genuinely wired to the backend (login/signup hit the portal API, checkout runs a real Razorpay flow). Even on an authless product site, the account story is one click away.</li>
+            <li><strong>Brand parity:</strong> light theme with the same green accent (<code style="font-family:var(--mono);color:var(--accent);">#00b86c</code>) as the main site, so the two "light" sites read as one brand versus the developers portal's dark console.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="funnel">
+          <h2>Quick-start funnel</h2>
+          <p>The conversion mechanic is admirably direct: show the exact config file each client wants, already filled in.</p>
+          <ul>
+            <li><code style="font-family:var(--mono);color:var(--accent);">claude_desktop_config.json</code> → Claude Desktop</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">mcp_config.json</code> → ChatGPT</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">.cursor/mcp.json</code> → Cursor</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">npx mcp-remote</code> → local/CLI setups</li>
+          </ul>
+          <p>All four point at <code style="font-family:var(--mono);color:var(--accent);">https://mcp.marketmind-hub.in/mcp</code> with <code style="font-family:var(--mono);color:var(--accent);">transport: "streamable-http"</code> and — because the server is authless — no key in the config. The blocks are styled as macOS code windows; <strong>honest note:</strong> the shipped snippets are visual, not click-to-copy, and the landing tabs are a plain client-side filter. Both are deliberate simplicity, not magic.</p>
+        </section>
+
+        <section class="detail-section" id="deployment">
+          <h2>Deployment &amp; reliability</h2>
+          <ul>
+            <li><code style="font-family:var(--mono);color:var(--accent);">wrangler deploy</code> handles the whole thing — edge routing, TLS on the branded domain, static asset caching, and the Worker's 404-page fallback.</li>
+            <li>Observation on: the project enables Observability and uploads source maps, and runs Node compatibility, so runtime failures point back at readable TypeScript.</li>
+            <li>Data reads go through KV cache-aside on top of R2 — the dataset on disk is durable, the hot reads are cheap, and the 12 tools return fast enough that the site can headline "&lt;100ms".</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

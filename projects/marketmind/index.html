@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MarketMind Hub — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study overview: MarketMind Hub, a white-label AI financial intelligence platform for Indian fintech — a RAG-driven market data engine with three public faces: a marketing site, an MCP server, and a developer portal." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Live · In development</span>
+    <h1>MarketMind Hub</h1>
+    <p class="lede">A white-label financial intelligence platform for Indian fintech — a RAG-driven market-data engine with three public faces: a marketing site, a Model Context Protocol (MCP) server, and a developer portal with API keys and billing. This page is the overview; each face has its own deep-dive.</p>
+    <div class="tag-list">
+      <span class="tag">FastAPI</span><span class="tag">RAG</span><span class="tag">MCP</span><span class="tag">Cloudflare Workers</span><span class="tag">Vercel</span><span class="tag">GitHub Pages</span><span class="tag">Razorpay</span>
+    </div>
+    <div class="project-links">
+      <a href="https://marketmind-hub.in/" target="_blank" rel="noopener">Main site <span class="arrow-expand">→</span></a>
+      <a href="https://mcp.marketmind-hub.in/" target="_blank" rel="noopener">MCP site <span class="arrow-expand">→</span></a>
+      <a href="https://developers.marketmind-hub.in/" target="_blank" rel="noopener">Developer portal <span class="arrow-expand">→</span></a>
+    </div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#platform">The platform</a>
+        <a href="#strategy">Subdomain strategy</a>
+        <a href="#studies">The three case studies</a>
+        <a href="#status">Status &amp; roadmap</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p>MarketMind Hub is a white-label, AI-driven financial intelligence platform aimed at Indian fintech startups and trading tooling. It exposes real-time market data (market status, trading holidays, T+1 settlement dates, weekly and monthly F&amp;O expiry, lot sizes), ticker intelligence for 2,359 NSE/BSE names, RAG-grounded financial context, and ML price signals — through <strong>two public integration channels</strong>: a REST API and a Model Context Protocol server. One API key unlocks both.</p>
+          <p>I build and operate the whole system end to end: the data pipeline, the models, the API backend, the billing, and the three public websites. Each site targets a different user — the marketing site sells the idea, the MCP site converts AI-agent developers, and the developer portal runs the account lifecycle and revenue. This page covers the platform and the strategy; the three links below go deep on each site.</p>
+        </section>
+
+        <section class="detail-section" id="platform">
+          <h2>The platform</h2>
+          <ul>
+            <li><strong>Data pipeline:</strong> parsers ingest from NSE, BSE, RBI, SEC filings, RSS, and analyst-ratings sources; an event converter normalizes them into financial documents; a RAG uploader ingests 16K+ documents into the vector index (the live site's own figure).</li>
+            <li><strong>Retrieval:</strong> ONNX-accelerated embeddings plus Redis HNSW vector search power the <code style="font-family:var(--mono);color:var(--accent);">rag-query</code> path, with ticker metadata cached in Cloudflare R2 + KV for the MCP data tools.</li>
+            <li><strong>Inference:</strong> a fine-tuned Mistral-7B for ticker extraction (70K+ training rows) and <strong>Chronos-Bolt</strong>, a zero-shot time-series model that returns 7-day price forecasts with a median plus p10–p90 confidence band.</li>
+            <li><strong>API surface:</strong> <code style="font-family:var(--mono);color:var(--accent);">api.marketmind-hub.in</code> hosts auth (signup/login/logout + Google OAuth), developer profile, API-key lifecycle, quota tracking, payment init/verify, and the marketplace endpoints — ticker-extract, price-predict, rag-retrieve.</li>
+            <li><strong>Delivery:</strong> REST API and MCP forward, plus a Telegram bot and a Discord bot on the side — with an admin app in Flutter and a separate Render-hosted service for contact and enterprise enquiries.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="strategy">
+          <h2>Subdomain strategy</h2>
+          <p>Four subdomains, each with one job, sharing one brand:</p>
+          <ul>
+            <li><code style="font-family:var(--mono);color:var(--accent);">marketmind-hub.in</code> — <strong>the front door</strong> (GitHub Pages). Explains the product, shows the one-key / two-channel story, funnels visitors toward docs and signup.</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">mcp.marketmind-hub.in</code> — <strong>the agent developer's entry point</strong> (Cloudflare Worker). The same worker serves both the MCP protocol endpoint and its onboarding site.</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">developers.marketmind-hub.in</code> — <strong>the account seat</strong> (Vercel). API keys, dashboard, quota, docs, pricing, and Razorpay checkout.</li>
+            <li><code style="font-family:var(--mono);color:var(--accent);">api.marketmind-hub.in</code> — <strong>the money path</strong>. Every one of the three sites routes its authentication and data calls here.</li>
+          </ul>
+          <p>The public sites are deliberately thin static front-ends. Each talks to the same backend, and config-driven linking keeps the whole system consistent — a single config file on the marketing site points every link at the right subdomain.</p>
+        </section>
+
+        <section class="detail-section" id="studies">
+          <h2>The three case studies</h2>
+          <p>Each public site gets a full write-up — audience, architecture, systems, and the honest gaps I'd ship differently if I were doing it again.</p>
+          <div class="case-cards">
+            <div class="case-card">
+              <span class="case-num">Part 01</span>
+              <h3>Main website</h3>
+              <p>The top-of-funnel marketing site on GitHub Pages — light design system, config-driven links, one-key messaging.</p>
+              <a href="website.html">Read case study <span class="arrow-expand">→</span></a>
+            </div>
+            <div class="case-card">
+              <span class="case-num">Part 02</span>
+              <h3>MCP site</h3>
+              <p>A Cloudflare Worker co-hosting an authless MCP server and the static site that teaches you how to connect.</p>
+              <a href="mcp.html">Read case study <span class="arrow-expand">→</span></a>
+            </div>
+            <div class="case-card">
+              <span class="case-num">Part 03</span>
+              <h3>Developer portal</h3>
+              <p>The dark console on Vercel — API keys, quotas, API reference, and real Razorpay billing.</p>
+              <a href="developers.html">Read case study <span class="arrow-expand">→</span></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-section" id="status">
+          <h2>Status &amp; roadmap</h2>
+          <p>Live today: three marketplace APIs (<code style="font-family:var(--mono);color:var(--accent);">ticker-extract</code>, <code style="font-family:var(--mono);color:var(--accent);">price-predict</code>, <code style="font-family:var(--mono);color:var(--accent);">rag-retrieve</code>) behind key-based auth with plan-based quotas; an authless 12-tool MCP server; a three-subdomain funnel running across GitHub Pages, Cloudflare, and Vercel; and a working Razorpay checkout with credit-weighted plans.</p>
+          <p>Publicly marked <em>coming soon</em>: news sentiment scoring, earnings-call intelligence, and a real-time market alerts WebSocket stream. The detail pages below are the full story — including the parts that are still rough.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

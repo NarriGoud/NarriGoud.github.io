@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MarketMind — Developer Portal — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study: the MarketMind developer portal at developers.marketmind-hub.in — a dark Vercel console with custom API-key auth, a quota dashboard, a hand-authored API reference, and real Razorpay billing." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Live · In development</span>
+    <h1>MarketMind — Developer Portal</h1>
+    <p class="lede">The revenue seat of the platform: a developer portal where anyone can open an account, generate API keys for Indian market intelligence, watch quota burn down against plan limits, and pay for more — through a real Razorpay flow. Deployed on Vercel with no build step.</p>
+    <div class="tag-list">
+      <span class="tag">Vanilla JS</span><span class="tag">Vercel</span><span class="tag">Custom Auth</span><span class="tag">Google OAuth</span><span class="tag">Razorpay</span><span class="tag">API Keys</span><span class="tag">Quota</span>
+    </div>
+    <div class="project-links">
+      <a href="https://developers.marketmind-hub.in/" target="_blank" rel="noopener">Visit live site <span class="arrow-expand">→</span></a>
+      <a href="index.html">← Hub overview</a>
+    </div>
+    <div class="project-media"><img src="../../assets/marketmind_developers_website.png" alt="MarketMind developer portal screenshot" loading="lazy" width="800" height="500" /></div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#design">Design &amp; layout</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#auth">Auth &amp; sessions</a>
+        <a href="#dashboard">Dashboard &amp; API keys</a>
+        <a href="#docs">API documentation</a>
+        <a href="#billing">Pricing &amp; billing</a>
+        <a href="#deployment">Deployment &amp; SEO</a>
+        <a href="#status">State &amp; honest gaps</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p><code style="font-family:var(--mono);color:var(--accent);">developers.marketmind-hub.in</code> is where the relationship with the product actually lives: signup, API-key management, quota tracking, API reference, and billing. It's a dark, terminal-flavored console that deliberately reuses none of the light marketing sites' code — it's its own hand-written system with its own config, partials, and auth — because the audience and the job are different: engineers, not browsers.</p>
+          <p>It's the only one of the three sites that touches real money, and it does so through two real pipelines: a server-approved Razorpay checkout for paid plans, and a backend enquiry form for enterprise deals.</p>
+        </section>
+
+        <section class="detail-section" id="design">
+          <h2>Design &amp; layout</h2>
+          <ul>
+            <li><strong>Fixed dark console:</strong> tokens in <code style="font-family:var(--mono);color:var(--accent);">:root</code> blocks — <code style="font-family:var(--mono);color:var(--accent);">--dev-bg #080c10</code>, <code style="font-family:var(--mono);color:var(--accent);">--dev-surface #0d1117</code>, green <code style="font-family:var(--mono);color:var(--accent);">#00ff88</code>, cyan <code style="font-family:var(--mono);color:var(--accent);">#00d4ff</code>, red for destructive states — with the block duplicated per page so each page is fully standalone.</li>
+            <li><strong>Type pairing:</strong> Syne for headings and nav, JetBrains Mono for code and labels; inline SVG icons plus emoji in the API cards — no icon font.</li>
+            <li><strong>Terminal flavor:</strong> blinking cursors, grid-and-glow background layers, API cards with hover glow, a sticky frosted header that gains a blur <code style="font-family:var(--mono);color:var(--accent);">.scrolled</code> state, and a mobile hamburger — with no theme toggle (deliberately a different vibe from the light sub-sites).</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="architecture">
+          <h2>Architecture</h2>
+          <ul>
+            <li><strong>Multi-page static:</strong> <code style="font-family:var(--mono);color:var(--accent);">index</code>, <code style="font-family:var(--mono);color:var(--accent);">docs</code>, <code style="font-family:var(--mono);color:var(--accent);">dashboard</code>, <code style="font-family:var(--mono);color:var(--accent);">pricing</code>, <code style="font-family:var(--mono);color:var(--accent);">contact</code>, <code style="font-family:var(--mono);color:var(--accent);">legal</code>, <code style="font-family:var(--mono);color:var(--accent);">404</code>, and an OAuth callback page — no framework, no build step, no package.json.</li>
+            <li><strong>Runtime partials:</strong> <code style="font-family:var(--mono);color:var(--accent);">utils.js</code> fetches the header, footer, and login/signup modals into shared placeholders; the dashboard opts out (<code style="font-family:var(--mono);color:var(--accent);">data-skip-utils</code>) and mounts its own chrome because it has a sidebar instead of a nav.</li>
+            <li><strong>One config global:</strong> <code style="font-family:var(--mono);color:var(--accent);">window.APP_CONFIG</code> centralizes the portal API base, the contact/enquiry backend, the Google client id, and shared URLs — though several modules hardcode their base URL instead of reading it, which is exactly the drift that bites.</li>
+            <li><strong>Per-page CSS:</strong> a <code style="font-family:var(--mono);color:var(--accent);">header.css</code>/<code style="font-family:var(--mono);color:var(--accent);">footer.css</code> core plus index/docs/dashboard/pricing/contact/legal page styles, with separate modal sheets for checkout and enterprise.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="auth">
+          <h2>Auth &amp; sessions</h2>
+          <ul>
+            <li><strong>Custom API auth</strong> against <code style="font-family:var(--mono);color:var(--accent);">api.marketmind-hub.in</code> — signup, login, logout, plus Google OAuth. No Firebase/Supabase dependency.</li>
+            <li><strong>Two-part session:</strong> the server sets an httpOnly <code style="font-family:var(--mono);color:var(--accent);">api_key</code> cookie while the client mirrors <code style="font-family:var(--mono);color:var(--accent);">userEmail</code> in localStorage for UI state; every call sends <code style="font-family:var(--mono);color:var(--accent);">credentials:'include'</code>.</li>
+            <li><strong>Google sign-in flow:</strong> Google Identity Services with a redirect-mode code flow → <code style="font-family:var(--mono);color:var(--accent);">google-redirect.html</code> exchanges <code style="font-family:var(--mono);color:var(--accent);">?code</code> at the portal's <code style="font-family:var(--mono);color:var(--accent);">/api/google-auth</code> → bounce to home, where the session restores.</li>
+            <li><strong>Guard rails:</strong> protected moments stash a <code style="font-family:var(--mono);color:var(--accent);">pendingRedirect</code> and prompt login; after a successful login the flow tries to resume the interrupted plan selection or deep link.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="dashboard">
+          <h2>Dashboard &amp; API keys</h2>
+          <ul>
+            <li><strong>Auth-guarded, data-driven</strong> — the tenant profile (id, company editable inline, plan, member-since), usage meters, and the key table all come from backend calls, updated live.</li>
+            <li><strong>Complete key lifecycle:</strong> generate (label + portal context) → the raw <code style="font-family:var(--mono);color:var(--accent);">mm_live_…</code> key is revealed <em>exactly once</em> in a modal with copy and an "I've saved it" handshake → rotate/regenerate and revoke, the destructive ones gated behind a permanence confirm.</li>
+            <li><strong>Quota engine:</strong> today/month progress bars that shift to warning at 70% and danger at 90%, an all-plans comparison grid, and consistent 401 handling that boots you to login when a session dies.</li>
+            <li><strong>Full-screen chrome:</strong> a sidebar plus a mobile tab bar driven by <code style="font-family:var(--mono);color:var(--accent);">data-panel</code> attributes — completely different layout from the marketing pages.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="docs">
+          <h2>API documentation</h2>
+          <p><code style="font-family:var(--mono);color:var(--accent);">docs.html</code> is a hand-authored static reference (not generated) — a feature for exactness, a cost for maintenance:</p>
+          <ul>
+            <li><strong>Auth:</strong> <code style="font-family:var(--mono);color:var(--accent);">X-API-Key</code> header with <code style="font-family:var(--mono);color:var(--accent);">mm_live_</code> keys, error codes 400/401/402/503/504, per-account daily quotas resetting at midnight UTC, and quota echoed in every response.</li>
+            <li><strong>Ticker Extractor</strong> — <code style="font-family:var(--mono);color:var(--accent);">POST /v1/signals/ticker-extract</code>, Mistral-7B, 70K+ training rows.</li>
+            <li><strong>Price Prediction</strong> — <code style="font-family:var(--mono);color:var(--accent);">POST /v1/signals/price-predict</code>, Chronos-Bolt, 7-day forecast with median + p10–p90 band, 1-hour Redis cache on identical inputs.</li>
+            <li><strong>RAG Retrieval</strong> — <code style="font-family:var(--mono);color:var(--accent);">POST /v1/intelligence/rag</code>, ONNX embeddings + Redis HNSW, token-budget depth tiers and filters (ticker / event type / days back).</li>
+            <li><strong>Presentation:</strong> four-language code tabs (curl / Python / JavaScript / Node) with copy buttons, full JSON schemas, an IntersectionObserver scroll-spy, and a mobile search/dropdown — developer-grade UX on a static page.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="billing">
+          <h2>Pricing &amp; billing</h2>
+          <ul>
+            <li><strong>Plans:</strong> Sandbox ₹0 (100 cr/day) · Starter ₹499 (500/day) · Builder ₹999 (1,500/day, "Most Popular", 99.5% SLA) · Scale ₹2,499 (5,000/day, 99.9% SLA) · Enterprise custom.</li>
+            <li><strong>Credit model:</strong> the marketplace is metered in credits — RAG = 3, Price Predict = 2, Ticker = 1, MCP tools 0.5–3 — and the pricing page marks the newest APIs (sentiment, earnings, sector) as <em>coming soon</em>.</li>
+            <li><strong>Real Razorpay flow:</strong> logged-in user → <code style="font-family:var(--mono);color:var(--accent);">POST /api/payment/init</code> (server prices the plan) → Razorpay Checkout (INR, prefilled email, company/use-case notes, green theme) → <code style="font-family:var(--mono);color:var(--accent);">POST /api/payment/verify</code> → success overlay. Upgrading changes your quota instantly.</li>
+            <li><strong>Enterprise:</strong> a separate scoped enquiry form (company, designation, timeline, credits, needed APIs) POSTs to the contact backend on Render — a proper sales path, distinct from self-serve checkout.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="deployment">
+          <h2>Deployment &amp; SEO</h2>
+          <ul>
+            <li><strong>Vercel</strong> with a minimal <code style="font-family:var(--mono);color:var(--accent);">vercel.json</code> (<code style="font-family:var(--mono);color:var(--accent);">cleanUrls</code> + no trailing slash), so <code style="font-family:var(--mono);color:var(--accent);">/docs</code>, <code style="font-family:var(--mono);color:var(--accent);">/pricing</code>, and <code style="font-family:var(--mono);color:var(--accent);">/dashboard</code> serve without extensions; the static <code style="font-family:var(--mono);color:var(--accent);">404.html</code> is auto-served for unknown routes.</li>
+            <li><strong>SEO is thin but present:</strong> per-page titles plus descriptions on the core pages, a <code style="font-family:var(--mono);color:var(--accent);">sitemap.xml</code> of clean URLs, and Google Search Console verified via a legacy file token — but no Open Graph, canonical, or JSON-LD, and no robots.txt.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="status">
+          <h2>State &amp; honest gaps</h2>
+          <p><strong>Live:</strong> signup / login / Google OAuth, the full API-key lifecycle (generate, once-only reveal, rotate, revoke), quota tracking, Razorpay billing, and three documented APIs.</p>
+          <p><strong>Coming soon (publicly marked):</strong> news sentiment scoring, earnings-call intelligence, and a real-time market alerts WebSocket stream.</p>
+          <p><strong>Known rough edges, stated plainly:</strong> the dashboard's Rotate-All and Delete-Account are "coming soon" toasts; the forgot-password link is unwired; the homepage notify input is client-side only; the docs page's plan numbers lag the pricing page; a pending-plan resume flow references a function that doesn't exist; and a few config values are defined but never read. These are exactly the things a production-launch pass would sweep up — and the reason this site is positioned as in development, not done.</p>
+          <p>The marketing front door lives on the <a href="website.html" style="color:var(--accent);">main website</a>, and the agent-facing layer on the <a href="mcp.html" style="color:var(--accent);">MCP site</a>.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

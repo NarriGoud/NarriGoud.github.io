@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MarketMind — Main Website — Case Study — Chintakuntla Narendra</title>
+<meta name="description" content="Case study: the MarketMind main website at marketmind-hub.in — a top-of-funnel marketing site on GitHub Pages built with vanilla HTML/CSS/JS, a config-driven link system, and a light design system that funnels visitors to the MCP and developer sub-sites." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css" />
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme");
+      var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../../index.html" class="name">Chintakuntla Narendra</a>
+    <nav>
+      <a href="../../index.html#projects" class="back-link">← All projects</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <span class="icon icon-moon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="icon icon-sun">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="detail-hero wrap reveal">
+    <span class="status">Live · Marketing site</span>
+    <h1>MarketMind — Main Website</h1>
+    <p class="lede">The front door of the platform: a marketing site that has to explain a developer product to startups, investors, and engineers in one glance, then route them toward the MCP and developer sub-sites. Hosted on GitHub Pages under its own domain, built with vanilla HTML/CSS/JS.</p>
+    <div class="tag-list">
+      <span class="tag">Vanilla JS</span><span class="tag">GitHub Pages</span><span class="tag">CSS tokens</span><span class="tag">Config-driven links</span><span class="tag">Responsive</span>
+    </div>
+    <div class="project-links">
+      <a href="https://marketmind-hub.in/" target="_blank" rel="noopener">Visit live site <span class="arrow-expand">→</span></a>
+      <a href="index.html">← Hub overview</a>
+    </div>
+    <div class="project-media"><img src="../../assets/marketmind_website.png" alt="MarketMind main website screenshot" loading="lazy" width="800" height="500" /></div>
+  </div>
+
+  <div class="detail-body wrap">
+    <div class="detail-layout">
+      <nav class="detail-nav" aria-label="Sections">
+        <span class="label">On this page</span>
+        <a href="#overview">Overview</a>
+        <a href="#design">Design system</a>
+        <a href="#content">Content architecture</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#contact">Contact system</a>
+        <a href="#deployment">Deployment &amp; SEO</a>
+        <a href="#gaps">Honest gaps</a>
+      </nav>
+
+      <div>
+        <section class="detail-section" id="overview">
+          <h2>Overview</h2>
+          <p><code style="font-family:var(--mono);color:var(--accent);">marketmind-hub.in</code> is the top of a three-site funnel. It earns credibility with product substance — a CSS-built mock dashboard in the hero, live-looking stat tiles, and a working illustration of the API key you'll get — then funnels every visitor toward the real product spaces: the MCP quick-start and the developer portal.</p>
+          <p>The site content described here reflects the live deployment; the local source folder is this project's canonical architecture but lags the shipped copy. Where the two differ, the messaging below is what actually ships.</p>
+        </section>
+
+        <section class="detail-section" id="design">
+          <h2>Design system</h2>
+          <ul>
+            <li><strong>Light theme, one accent:</strong> everything flows from CSS custom properties in <code style="font-family:var(--mono);color:var(--accent);">:root</code> — accent <code style="font-family:var(--mono);color:var(--accent);">#00b86c</code>, a full neutral ramp, shadow and radius scales, and a 1200px container. Whatever colorwork the product itself does, the site stays calm and financial.</li>
+            <li><strong>Typography:</strong> Inter for reading, JetBrains Mono for code and labels, sized with <code style="font-family:var(--mono);color:var(--accent);">clamp()</code> for fluid scaling — the same pairing the whole portfolio of sub-sites shares.</li>
+            <li><strong>Hero:</strong> a full-viewport section layered with a repeating 80px grid-line background masked by a radial gradient and a soft green glow, a badge with a pulsing dot, a gradient-text headline, and a stats row (500+ NSE/BSE tickers · &lt;200ms · 99.9% uptime).</li>
+            <li><strong>Components:</strong> feature cards with hover lift, use-case cards with mono-font numbered badges, REST/MCP channel cards, macOS-style code windows (traffic-light dots, filename header, hand-rolled syntax highlight), and a unified-key card with a gradient border on hover displaying a mock <code style="font-family:var(--mono);color:var(--accent);">mm_live_…</code> key plus REST+/MCP chips.</li>
+            <li><strong>Motion:</strong> IntersectionObserver fade-ins with per-card stagger delays, and a reduced-motion fallback that renders everything visible immediately.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="content">
+          <h2>Content architecture</h2>
+          <p>The page is structured as one long persuasion document rather than ten smaller ones:</p>
+          <ul>
+            <li><strong>The one-key identity:</strong> the central promise — "generate a single API key and use it across both integration channels" — with a dedicated section showing the same key unlocking REST and MCP.</li>
+            <li><strong>Two ways to integrate:</strong> an MCP panel (with the exact <code style="font-family:var(--mono);color:var(--accent);">mcpServers</code> config block) and a REST panel (with a live curl snippet hitting ticker-extract), driving home "no separate accounts, no separate credentials".</li>
+            <li><strong>Six core capabilities:</strong> RAG intelligence, ticker extraction, price prediction, real-time data, secure API keys, multi-channel access — each one mapping to something the developer portal actually offers.</li>
+            <li><strong>Four use cases:</strong> trading bots, research dashboards, AI financial advisors, portfolio analytics — each tagged with the channel (REST/MCP) and capability it relies on, so engineers can self-classify.</li>
+            <li><strong>Contact surface:</strong> a standalone <code style="font-family:var(--mono);color:var(--accent);">/contact.html</code> plus a slide-in contact panel reachable from the footer CTA.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="architecture">
+          <h2>Architecture</h2>
+          <ul>
+            <li><strong>Vanilla and tiny:</strong> two JS files and two CSS files run the whole site — no framework, no build step, no npm. <code style="font-family:var(--mono);color:var(--accent);">config.js</code> (~23 lines) and <code style="font-family:var(--mono);color:var(--accent);">main.js</code> (~188 lines).</li>
+            <li><strong>Config-driven links:</strong> every external URL lives in one <code style="font-family:var(--mono);color:var(--accent);">window.MM_CONFIG</code> object (subdomain base URLs, sub-site page paths, contact mailto). Markup uses <code style="font-family:var(--mono);color:var(--accent);">data-link="mcp"</code> attributes and <code style="font-family:var(--mono);color:var(--accent);">main.js</code> resolves them at load — so a rebrand or a moved sub-page is a one-line change, and the site's cross-links to the MCP and developer portals can never silently rot.</li>
+            <li><strong>Interaction script:</strong> sticky-nav blur state, mobile menu with scroll lock, smooth anchor scrolling with header-offset compensation, stagger reveals, and the contact-panel drawer (overlay click + Escape to close).</li>
+            <li><strong>Multi-page structure:</strong> <code style="font-family:var(--mono);color:var(--accent);">index.html</code>, <code style="font-family:var(--mono);color:var(--accent);">contact.html</code>, and <code style="font-family:var(--mono);color:var(--accent);">404.html</code>, with the contact panel embedded in both index and 404 so a visitor on a dead link is still one click from a conversation.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="contact">
+          <h2>Contact system</h2>
+          <p>The form (name, email, optional company and website, a ten-option subject select, and a message with a live 1000-character counter) appears in two places — the standalone page and the drawer. It validates with native HTML5, clamps the message length in JS, and swaps to a success card on submit.</p>
+          <p><strong>Honest note:</strong> in the source, submission is client-side only — the handler prevent-defaults, hides the form, and shows the success state. There is no backend POST wired on this marketing site; the real conversation path is the config-managed email, while the developer portal carries the proper backend form flow. It's the one piece of this site that needs a production pass.</p>
+        </section>
+
+        <section class="detail-section" id="deployment">
+          <h2>Deployment &amp; SEO</h2>
+          <ul>
+            <li>Hosted on GitHub Pages with a <code style="font-family:var(--mono);color:var(--accent);">CNAME</code> record mapping it to the branded <code style="font-family:var(--mono);color:var(--accent);">marketmind-hub.in</code> domain.</li>
+            <li>A <code style="font-family:var(--mono);color:var(--accent);">sitemap.xml</code> declares the two pages, and the 404 page reuses the full design system while embedding the contact panel so it does real conversion work.</li>
+            <li>SEO meta is minimal — per-page titles and semantic HTML5 landmarks, but no Open Graph or JSON-LD in source. For a marketing site being linked from the developer portal and docs, that's the highest-value next investment.</li>
+          </ul>
+        </section>
+
+        <section class="detail-section" id="gaps">
+          <h2>Honest gaps</h2>
+          <ul>
+            <li>Light theme only — no dark mode, no preference query, no toggle (the site's own product supports agents that run in dark terminals, so this is a miss).</li>
+            <li>The contact form is a front-end mock (see above).</li>
+            <li>The logo SVGs are oversized (~110–245 KB each) and dominate page weight — a real opportunity for a hand-tuned version.</li>
+            <li>The local source folder trails the live deployment, so editing marketing copy in the repo requires disciplined syncing.</li>
+          </ul>
+          <p>The companion deep-dives: <a href="mcp.html" style="color:var(--accent);">the MCP site</a> and <a href="developers.html" style="color:var(--accent);">the developer portal</a>.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> Chintakuntla Narendra</span>
+    <a href="../../index.html" class="back-link">Back to home</a>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>
